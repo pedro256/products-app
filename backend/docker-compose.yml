@@ -1,0 +1,15 @@
+version: '3.1'
+
+services:
+  mariadb:
+    image: mariadb:10.6
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: productsdb
+      MYSQL_USER: productsdbuser
+      MYSQL_PASSWORD: 1234
+    restart: on-failure
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mariadb:/var/lib/mysql
