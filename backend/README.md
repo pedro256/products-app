@@ -3,6 +3,9 @@
 
 # RUN APPLICATION
 
+* RUN DATABASE (DOCKER):
+    docker-compose up
+* RUN APLICATION:
     uvicorn main:app --port 8080 --reload
     
 # ANOTATIONS
