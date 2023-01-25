@@ -2,29 +2,28 @@
   
   
 
-# RUN APPLICATION
+# RODAR A APLICAÇÃO
 
-* RUN DATABASE (DOCKER):
+* RODAR BANCO DE DADOS (DOCKER):
 
     docker-compose up
 
-* ENTER IN PIPENV
+* ENTRAR NO AMBIENTE DO PIPENV
 
   dir : /backend>
   pipenv shell
   
 
 
-* RUN DATABASE INITAL SCRIPTS:
+* RODA OS SCRIPTS PARA A GERAÇÃO DO BANCO DE DADOS:
 
     python init_db.py
 
-* RUN APLICATION:
+* RODA O BACKEND:
 
     uvicorn main:app --port 8080 --reload
 
-# ANOTATIONS
-
+# ANOTAÇÕES
 pip 22.2.2
-
 python 3.10.7
+
