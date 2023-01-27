@@ -1,14 +1,14 @@
-from fastapi import APIRouter, status,HTTPException
+from fastapi import APIRouter, status,HTTPException,Depends
+from database.connection import get_db
 from database.models import Category
-from database.connection import SessionLocal
 from schemas.category import CategoryCreateInput,CategoryViewModel
-from sqlalchemy.orm import selectinload
+from sqlalchemy.orm import selectinload,Session
 
 CategoryRouter = APIRouter()
-db=SessionLocal()
+
 
 @CategoryRouter.get("/")
-def getAllCategories(name:str=""):
+def getAllCategories(db: Session = Depends(get_db),name:str=""):
     query = db.query(Category)
     all_filters = []
     if name:
@@ -19,7 +19,7 @@ def getAllCategories(name:str=""):
     return items
 
 @CategoryRouter.get("/{id}")
-def getOneCategory(id:int):
+def getOneCategory(id:int,db: Session = Depends(get_db)):
     item = db.query(Category).options(selectinload(Category.products)).get(id)
 
     if not item:
@@ -30,7 +30,7 @@ def getOneCategory(id:int):
 
 
 @CategoryRouter.post("/",response_model=CategoryViewModel, status_code=status.HTTP_201_CREATED)
-def createCategory(item:CategoryCreateInput):
+def createCategory(item:CategoryCreateInput,db: Session = Depends(get_db)):
     new_categ = Category()
     new_categ.name = item.name
 
@@ -44,7 +44,7 @@ def createCategory(item:CategoryCreateInput):
     )
     
 @CategoryRouter.put("/{id}",status_code=status.HTTP_204_NO_CONTENT)
-def updateOneCategory(id:int,item:CategoryCreateInput):
+def updateOneCategory(id:int,item:CategoryCreateInput,db: Session = Depends(get_db)):
 
     entity = db.query(Category).get(id)
 
@@ -62,7 +62,7 @@ def updateOneCategory(id:int,item:CategoryCreateInput):
     return entity
 
 @CategoryRouter.delete("/{id}",status_code=status.HTTP_204_NO_CONTENT)
-def deleteOneCategory(id:int):
+def deleteOneCategory(id:int,db: Session = Depends(get_db)):
     entity = db.query(Category).get(id)
 
     if not entity:

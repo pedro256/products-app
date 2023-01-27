@@ -1,16 +1,14 @@
-from fastapi import APIRouter, status,HTTPException
+from fastapi import APIRouter, status,HTTPException,Depends
+from database.connection import get_db
 from database.models import Product
-from database.connection import SessionLocal
 from schemas.product import ProductCreateInput,ProductViewModel,ProductUpdateInput
-from sqlalchemy.orm import joinedload
-from schemas.category import CategoryViewModel
+from sqlalchemy.orm import joinedload,Session
 
 ProductRouter = APIRouter()
-db=SessionLocal()
 
 
 @ProductRouter.get("/")
-def getAllProducts( name: str = '',serie:int = 0,min_price:float=-1,max_price:float=0,categoryId:int =0):
+def getAllProducts( name: str = '',serie:int = 0,min_price:float=-1,max_price:float=0,categoryId:int =0,db: Session = Depends(get_db)):
     query = db.query(Product).options(
         joinedload(Product.categoryItem,innerjoin=True)
         )
@@ -30,7 +28,7 @@ def getAllProducts( name: str = '',serie:int = 0,min_price:float=-1,max_price:fl
     return items
 
 @ProductRouter.post("/",response_model=ProductViewModel, status_code=status.HTTP_201_CREATED)
-def createProduct(item:ProductCreateInput):
+def createProduct(item:ProductCreateInput,db: Session = Depends(get_db)):
     new_prod = Product()
     new_prod.name = item.name
     new_prod.category = item.category
@@ -51,7 +49,7 @@ def createProduct(item:ProductCreateInput):
     
 
 @ProductRouter.get("/{id}")
-def getOneProduct(id:int):
+def getOneProduct(id:int,db: Session = Depends(get_db)):
     item = db.query(Product).options(joinedload(Product.categoryItem,innerjoin=True)).get(id)
 
     if not item:
@@ -66,7 +64,7 @@ def getOneProduct(id:int):
 
 
 @ProductRouter.put("/{id}",status_code=status.HTTP_204_NO_CONTENT)
-def updateOneProduct(id:int,item:ProductUpdateInput):
+def updateOneProduct(id:int,item:ProductUpdateInput,db: Session = Depends(get_db)):
 
     entity = db.query(Product).get(id)
 
@@ -91,7 +89,7 @@ def updateOneProduct(id:int,item:ProductUpdateInput):
     return entity
 
 @ProductRouter.delete("/{id}",status_code=status.HTTP_204_NO_CONTENT)
-def deleteOneCategory(id:int):
+def deleteOneCategory(id:int,db: Session = Depends(get_db)):
     entity = db.query(Product).get(id)
 
     if not entity:
