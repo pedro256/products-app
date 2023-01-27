@@ -1,26 +1,32 @@
   
-  
+
+  A aplicação backend feita em python, FASTAPI, um CRUD de produtos e categorias
+  usando SQLALCHEMY para integração com o Banco de Dados MariaDB, por meio de um container docker,
+  usando também docker compose.
   
 
 # RODAR A APLICAÇÃO
 
 * RODAR BANCO DE DADOS (DOCKER):
 
+    dir : /backend>
     docker-compose up
+
+* INSTALAR AS DEPENDENCIAS PIPENV:
+
+    pipenv install
 
 * ENTRAR NO AMBIENTE DO PIPENV
 
   dir : /backend>
   pipenv shell
   
-
-
 * RODA OS SCRIPTS PARA A GERAÇÃO DO BANCO DE DADOS:
-
+    dir : /backend>
     python init_db.py
 
 * RODA O BACKEND:
-
+    dir : /backend>
     uvicorn main:app --port 8080 --reload
 
 # ANOTAÇÕES
