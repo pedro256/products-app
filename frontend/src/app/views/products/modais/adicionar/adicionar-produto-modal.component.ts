@@ -13,6 +13,7 @@ export class ModalAdicionarProduto implements OnInit {
 
     product: Product = new Product();
     categoryList = new Array<Category>();
+    parent:any;
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -36,12 +37,36 @@ export class ModalAdicionarProduto implements OnInit {
             console.error("erro: ",e)
           }
           )
-      }
+    }
+    
+    validarDados(){
+        if(!this.product.name.length){
+            alert("Nome deve ser preenchido")
+            return false
+        }
+        if(this.product.price<=0){
+            alert("Preço deve ser preenchido")
+            return false
+        }
+        if(this.product.serie<=0){
+            alert("Série deve ser preenchido")
+            return false
+        }
+        if(this.product.category<=0){
+            alert("Categoria deve ser selecionada")
+            return false
+        }
+        return true;
+    }
         
     add(){
+        if(!this.validarDados()){
+            return;
+        }
 
         this.prdServ.create(this.product).subscribe(
             (value)=>{
+                this.parent.limparParams();
                 alert("Dados Salvos !")
                 this.activeModal.close('Close click');
             },

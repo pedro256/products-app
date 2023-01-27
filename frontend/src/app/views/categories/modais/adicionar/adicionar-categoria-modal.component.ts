@@ -10,6 +10,7 @@ import Category from 'src/app/shared/models/category.model';
 export class ModalAdicionarCategoria implements OnInit {
 
     categoria: Category = new Category();
+    parent:any;
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -20,10 +21,21 @@ export class ModalAdicionarCategoria implements OnInit {
     ngOnInit(): void {
     }
 
-    add(){
+    validarDados(){
+        if(!this.categoria.name.length){
+            alert("Nome deve ser preenchido")
+            return false;
+        }
+        return true;
+    }
 
+    add(){
+        if(!this.validarDados()){
+            return;
+        }
         this.ctgServ.create(this.categoria).subscribe(
             (value)=>{
+                this.parent.limparParams();
                 alert("Dados Salvos !")
                 this.activeModal.close('Close click');
             },

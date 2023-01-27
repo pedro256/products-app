@@ -11,6 +11,7 @@ import Product from 'src/app/shared/models/product.model';
 })
 export class ModalRemoverProduto implements OnInit {
     product = new Product();
+    parent:any;
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -24,6 +25,7 @@ export class ModalRemoverProduto implements OnInit {
 
         this.prdServ.delete(this.product.id).subscribe(
             (value)=>{
+                this.parent.limparParams();
                 alert("Operaçãp realizada !")
                 this.activeModal.close('Close click');
             },

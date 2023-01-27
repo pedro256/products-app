@@ -75,16 +75,19 @@ export class ProductsComponent implements OnInit{
 
   abrirModalAdicionar(){
     const modalRef = this.modalService.open(ModalAdicionarProduto);
+    modalRef.componentInstance.parent = this;
   }
   abrirModalRemover(item){
     const modalRef = this.modalService.open(ModalRemoverProduto);
     modalRef.componentInstance.product = item;
+    modalRef.componentInstance.parent = this;
   }
   abrirModalEditar(item){
     console.log(item)
     const it = structuredClone(item);
     const modalRef = this.modalService.open(ModalEditarProduto);
     modalRef.componentInstance.product = it;
+    modalRef.componentInstance.parent = this;
   }
 
 

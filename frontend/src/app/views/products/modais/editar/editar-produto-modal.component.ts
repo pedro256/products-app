@@ -13,6 +13,7 @@ export class ModalEditarProduto implements OnInit {
 
     product: Product = new Product();
     categoryList = new Array<Category>();
+    parent:any;
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -24,8 +25,28 @@ export class ModalEditarProduto implements OnInit {
     ngOnInit(): void {
         this.buscarCategorias()
     }
+    validarDados(){
+        if(!this.product.name.length){
+            alert("Nome deve ser preenchido")
+            return false
+        }
+        if(this.product.price<=0){
+            alert("Preço deve ser preenchido")
+            return false
+        }
+        if(this.product.serie<=0){
+            alert("Série deve ser preenchido")
+            return false
+        }
+        if(this.product.category<=0){
+            alert("Categoria deve ser selecionada")
+            return false
+        }
+        return true;
+    }
 
     buscarCategorias(){
+        
 
         this.ctgServ.list({}).subscribe(
           (value)=>{
@@ -44,9 +65,12 @@ export class ModalEditarProduto implements OnInit {
       }
         
     add(){
-
+        if(!this.validarDados()){
+            return;
+        }
         this.prdServ.updateProduct(this.product).subscribe(
             (value)=>{
+                this.parent.limparParams();
                 alert("Dados Salvos !")
                 this.activeModal.close('Close click');
             },

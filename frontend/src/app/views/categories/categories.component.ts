@@ -50,15 +50,18 @@ export class CategoriesComponent implements OnInit{
   }
   abrirModalAdicionar(){
     const modalRef = this.modalService.open(ModalAdicionarCategoria);
+    modalRef.componentInstance.parent = this;
   }
   abrirModalExcluir(item){
     const modalRef = this.modalService.open(ModalRemoverCategoria);
     modalRef.componentInstance.categoria = item;
+    modalRef.componentInstance.parent = this;
   }
   abrirModalEditar(item){
     const it = structuredClone(item);
     const modalRef = this.modalService.open(ModalEditarCategoria);
     modalRef.componentInstance.categoria = it;
+    modalRef.componentInstance.parent = this;
   }
 
 

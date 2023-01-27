@@ -13,6 +13,7 @@ export class ModalRemoverCategoria implements OnInit {
 
     categoria: Category = new Category();
     produtosRelacionados = new Array<Product>();
+    parent:any;
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -28,7 +29,7 @@ export class ModalRemoverCategoria implements OnInit {
 
         this.prdServ.list({categoryId:this.categoria.id}).subscribe(
           (value)=>{
-            console.log(value)
+            
             this.produtosRelacionados = value;
           },
           (e)=>{
@@ -42,6 +43,7 @@ export class ModalRemoverCategoria implements OnInit {
 
         this.ctgServ.delete(this.categoria.id).subscribe(
             (value)=>{
+                this.parent.limparParams();
                 alert("Operaçãp realizada !")
                 this.activeModal.close('Close click');
             },
