@@ -4,3 +4,5 @@ class CategoryCreateInput(BaseModel):
 class CategoryViewModel(BaseModel):
     id:int
     name:str
+
+    

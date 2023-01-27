@@ -1,0 +1,98 @@
+<div class="container">
+    <h1 class="row">
+        <h1>Produtos</h1>
+        <h6>Manutenção de dados do Produto</h6>
+    </h1>
+    <div class="row">
+        <div class="panel panel-primary filterable">
+            <div class="panel-heading area-filter">
+                <h4 class="panel-title">Filtro</h4>
+                <br>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <label for="name">Nome:</label>
+                        <input type="text" name="name" class="input-shared" [(ngModel)]="params.name">
+                    </div>
+                    <div class="col-lg-2">
+                        <label for="serie">Serie:</label>
+                        <input type="number" name="serie" class="input-shared" [(ngModel)]="params.serie">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+
+                        <div class="row">
+                            <label for="price">Preço:</label>
+                            <div class="col-md-6">
+                                <input [(ngModel)]="params.min_price" placeholder="Min" name="price-min" type="text"
+                                    name="name" class="input-shared">
+                            </div>
+                            <div class="col-md-6">
+                                <input [(ngModel)]="params.max_price" placeholder="Max" name="price-max" type="number"
+                                    name="serie" class="input-shared">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-6">
+                        <label for="category">Categoria:</label>
+                        <select class="select-shared" [(ngModel)]="params.categoryId">
+                            <option value="0">Nenhum</option>
+                            <option *ngFor="let cat of categoryList" [value]="cat.id">
+                                {{cat.name}}
+                            </option>
+                        </select>
+                    </div>
+
+
+                </div>
+
+                <div class="d-flex justify-content-between" style="padding: 15px 10px 10px;">
+                    <div>
+                        <button class="btn btn-shared color-primary uppercase"
+                            (click)="buscarProdutos()">Buscar</button>
+                        <button class="btn btn-shared color-neutro uppercase" (click)="limparParams()">Limpar</button>
+                    </div>
+                    <div>
+                        <button class="btn btn-shared color-primary uppercase" (click)="abrirModalAdicionar()"> Novo Produto </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <table class="table table-shared">
+                <thead>
+                    <tr class="filters">
+                        <th> #</th>
+                        <th>Ações</th>
+                        <th>Nome</th>
+                        <th>Preço</th>
+                        <th>Serie</th>
+                        <th>Categoria</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of list; let i = index;">
+                        <td>{{i+1}}</td>
+                        <td>
+                            <button (click)="abrirModalRemover(item)" class="btn btn-shared color-danger uppercase">
+                                <i class="icon-remove"></i> 
+                                <small>REMOVER</small>
+                            </button>
+                            <button (click)="abrirModalEditar(item)" class="btn btn-shared color-warning uppercase">
+                                <i class="icon-remove"></i> 
+                                <small>EDITAR</small>
+                            </button>
+                        </td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.price}}</td>
+                        <td>{{item.serie}}</td>
+                        <td>{{item.categoryItem !=null ? item.categoryItem.name: "---"}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

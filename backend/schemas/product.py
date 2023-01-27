@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import Any, Dict, Optional, Tuple
+from .category import CategoryViewModel
 
 class ProductCreateInput(BaseModel):
     name:str
@@ -17,5 +18,10 @@ class ProductViewModel(BaseModel):
     id:int
     name:str
     category:int
+    #category:CategoryViewModel
     price:float
     serie:int
+
+
+
+        

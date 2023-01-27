@@ -1,0 +1,32 @@
+<div class="modal-header">
+    <h4 class="modal-title">Deseja Apagar Categoria ??</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-lg-12">
+            <label for="nome" aria-required="true"><b>Nome:</b> {{categoria.name}}</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <p>
+                Deseja realmente apagar a categoria em questão ?<br> Caso delete os <b>Produtos</b> relacionados serão perdidos !
+            </p>
+            <p>OS PRODUTOS SERÃO PERDIDOS: </p>
+            <ul>
+                <li *ngFor="let item of produtosRelacionados">
+                    {{item.name}}
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="remove()"> SIM </button>
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Fechar</button>
+</div>

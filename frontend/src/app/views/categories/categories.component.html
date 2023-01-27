@@ -1,0 +1,56 @@
+<div class="container">
+    <h1 class="row">
+        <h1>Categorias</h1>
+        <h6>Manutenção de dados do Categorias de Produto</h6>
+    </h1>
+    <div class="row">
+        <div class="panel panel-primary filterable">
+            <div class="panel-heading area-filter">
+                <h4 class="panel-title">Filtro</h4>
+                <br>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label for="codigoRegistro">Nome:</label>
+                        <input [(ngModel)]="params.name" type="text" name="name" class="input-shared" >
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between" style="padding: 15px 10px 10px;">
+                    <div>
+                        <button class="btn btn-shared color-primary uppercase" (click)="buscarCategorias()" >Buscar</button>
+                        <button class="btn btn-shared color-neutro uppercase" (click)="limparParams()">Limpar</button>
+                    </div>
+                    <div>
+                        <button class="btn btn-shared color-primary uppercase" (click)="abrirModalAdicionar()"> Nova Categoria </button>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <table class="table table-shared">
+                <thead>
+                    <tr class="filters">
+                        <th> #</th>
+                        <th>Ações</th>
+                        <th>Nome</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of list; let i = index;">
+                        <td>{{i+1}}</td>
+                        <td>
+                            <button (click)="abrirModalExcluir(item)" class="btn btn-shared color-danger uppercase">
+                                <i class="icon-remove"></i> 
+                                <small>REMOVER</small>
+                            </button>
+                            <button (click)="abrirModalEditar(item)" class="btn btn-shared color-warning uppercase">
+                                <i class="icon-remove"></i> 
+                                <small>EDITAR</small>
+                            </button>
+                        </td>
+                        <td>{{item.name}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

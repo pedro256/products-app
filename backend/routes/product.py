@@ -2,14 +2,31 @@ from fastapi import APIRouter, status,HTTPException
 from database.models import Product
 from database.connection import SessionLocal
 from schemas.product import ProductCreateInput,ProductViewModel,ProductUpdateInput
-from sqlalchemy.orm import lazyload
+from sqlalchemy.orm import joinedload
+from schemas.category import CategoryViewModel
 
 ProductRouter = APIRouter()
 db=SessionLocal()
 
+
 @ProductRouter.get("/")
-def getAllProducts():
-    items = db.query(Product).options(lazyload(Product.categoryItem)).all()
+def getAllProducts( name: str = '',serie:int = 0,min_price:float=-1,max_price:float=0,categoryId:int =0):
+    query = db.query(Product).options(
+        joinedload(Product.categoryItem,innerjoin=True)
+        )
+    all_filters = []
+    if name:
+        all_filters.append(Product.name.like('%'+name+'%'))
+    if serie:
+        all_filters.append(Product.serie == serie)
+    if min_price>=0:
+        all_filters.append(Product.price>=min_price)
+    if max_price>0:
+        all_filters.append(Product.price<=max_price)
+    if categoryId:
+        all_filters.append(Product.category == categoryId)
+
+    items = query.filter(*all_filters).all()
     return items
 
 @ProductRouter.post("/",response_model=ProductViewModel, status_code=status.HTTP_201_CREATED)
@@ -35,12 +52,14 @@ def createProduct(item:ProductCreateInput):
 
 @ProductRouter.get("/{id}")
 def getOneProduct(id:int):
-    item = db.query(Product).options(lazyload(Product.categoryItem)).get(id)
+    item = db.query(Product).options(joinedload(Product.categoryItem,innerjoin=True)).get(id)
 
     if not item:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Product  not found"
         )
+    
+    
 
     return item
 

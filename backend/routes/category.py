@@ -2,25 +2,30 @@ from fastapi import APIRouter, status,HTTPException
 from database.models import Category
 from database.connection import SessionLocal
 from schemas.category import CategoryCreateInput,CategoryViewModel
-from sqlalchemy.orm import lazyload
+from sqlalchemy.orm import selectinload
 
 CategoryRouter = APIRouter()
 db=SessionLocal()
 
 @CategoryRouter.get("/")
-def getAllCategories():
-    items = db.query(Category).options(lazyload(Category.products)).all()
+def getAllCategories(name:str=""):
+    query = db.query(Category)
+    all_filters = []
+    if name:
+        all_filters.append(Category.name.like('%'+name+'%'))
+    
+    items = query.filter(*all_filters).all()
+
     return items
 
 @CategoryRouter.get("/{id}")
 def getOneCategory(id:int):
-    item = db.query(Category).options(lazyload(Category.products)).get(id)
+    item = db.query(Category).options(selectinload(Category.products)).get(id)
 
     if not item:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Category  not found"
         )
-
     return item
 
 

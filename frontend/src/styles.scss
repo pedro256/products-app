@@ -1,2 +1,67 @@
 /* You can add global styles to this file, and also import other style files */
+@use './base.scss';
 @import '~bootstrap/dist/css/bootstrap.min.css';
+
+
+%border-table-shared {
+    border: 1px solid #8f8f8f;
+}
+
+table.table-shared {
+    @extend %border-table-shared;
+
+
+    th {
+        background-color: base.$primary-color;
+        color: #fff;
+        font-weight: bold;
+    }
+
+    th,
+    td {
+        @extend %border-table-shared;
+    }
+}
+
+input.input-shared, select.select-shared{
+    border-radius: 4px;
+    padding: 4px;
+    display: block;
+    border: 1px solid #4e4e4eb0;
+    width: 100%;
+}
+
+
+input.input-shared:focus {
+    outline: 1px solid base.$primary-color-opas;
+}
+button.btn-shared{
+    margin: 0px 5px;
+}
+button.btn-shared.color-primary{
+    font-weight: bold;
+    color: #fff;
+    background-color: base.$btn-primary;
+}
+button.btn-shared.color-neutro{
+    font-weight: bold;
+    color: #000;
+    border: #000 solid 1px;
+}
+button.btn-shared.color-danger{
+    font-weight: bold;
+    color: #fff;
+    border: #fff solid 1px;
+    background-color: base.$btn-danger;
+}
+button.btn-shared.color-warning{
+    font-weight: bold;
+    color: rgb(8, 8, 8);
+    border: none;
+    background-color: base.$second-color;
+}
+
+
+.uppercase{
+    text-transform: uppercase;
+}

@@ -1,5 +1,7 @@
+@use '../../base.scss';
+
 body {
-  background-color: #fbfbfb;
+  background-color: base.$backgroud-color;
 }
 
 @media (min-width: 991.98px) {
@@ -24,10 +26,10 @@ body {
   z-index: 600;
 }
 .sidebar-color {
-  background: #008000	;
+  background: base.$primary-color	;
 }
 .navbar-color{
-  background: #008000	;
+  background: base.$primary-color	;
 }
 .list-group-item{
   background-color: transparent;

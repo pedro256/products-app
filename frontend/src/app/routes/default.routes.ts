@@ -7,6 +7,6 @@ export default [
     },
     {
         name:"CATEGORIAS",
-        route:"/categorias"
+        route:"/categories"
     }
 ] as Array<NavigationItemNavbar>
